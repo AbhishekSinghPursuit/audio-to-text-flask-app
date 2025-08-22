@@ -1,12 +1,13 @@
 # Audio to Text Translator (Flask + OpenAI Whisper)
 
-This project is a web application that allows users to upload audio file and receive accurate transcriptions using OpenAI's Whisper model. Built with Flask, it provides a simple interface for converting speech in audio files to text, supporting a wide range of audio formats.
+This project is a web application that allows users to upload audio file and receive accurate transcriptions using OpenAI's Whisper model. Built with Flask, it provides a simple interface for converting speech in audio files to text, supporting a wide range of audio formats and `multiple languages`.
 
 ---
 
 ## Features
 
 - **Audio Upload:** Upload audio files in various formats (e.g., WAV, MP3, FLAC).
+- **Language Selection:** Choose from 90+ supported languages for transcription.
 - **Automatic Speech Recognition:** Uses OpenAI Whisper for high-quality transcription.
 - **Audio Playback:** Listen to the uploaded audio directly in the browser.
 - **User-Friendly Interface:** Clean, responsive design for ease of use.
@@ -17,6 +18,7 @@ This project is a web application that allows users to upload audio file and rec
 
 ![Demo Screenshot](static/A2T.jpeg)
 ![Demo Screenshot](static/A2Tv1.jpeg)
+![Demo Screenshot](static/A2Tv2.jpeg)
 
 ---
 
@@ -70,8 +72,16 @@ This project is a web application that allows users to upload audio file and rec
 
 2. **Upload an audio file:**
     - Click `Choose audio file` and select your file.
+    - Select your `desired language` from the dropdown menu.
     - Click `Translate` to transcribe the audio.
     - The transcription will appear below, and you can play back the audio.
+
+---
+
+## Language Support
+
+The app supports transcription in 90+ languages. Simply select your preferred language from the dropdown before uploading your audio file.  
+Some supported languages include: English, Hindi, Spanish, French, German, Chinese, Russian, Japanese, Arabic, and many more.
 
 ---
 
@@ -95,8 +105,9 @@ audio-to-text-translator/
 ## How It Works
 
 - The user uploads an audio file via the web interface.
+- The user selects the language for transcription.
 - The file is saved to the `static/uploads` directory.
-- The Whisper model (`turbo` by default) processes the audio and generates a transcription.
+- The Whisper model (`turbo` by default) processes the audio and generates a transcription in the selected language.
 - The transcription is displayed on the page, and the audio can be played back.
 
 ---
