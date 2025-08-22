@@ -1,27 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Audio to Text Translator</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .container { max-width: 500px; margin: auto; }
-        .translation-box { margin-top: 30px; padding: 15px; border: 1px solid #ccc; background: #f9f9f9; min-height: 60px; }
-        label { font-weight: bold; }
-        input[type="file"] { margin-top: 10px; }
-        button.btn { margin-top: 15px; padding: 8px 16px; border-radius: 4px; border: none; background-color: #28a745; color: white; cursor: pointer; }
-        button.btn:hover { background-color: #218838; }
-        .audio-player { margin-top: 30px; }
-        #reset-button { margin-top: 20px; background-color: #dc3545; color: white; border: none; border-radius: 4px; padding: 8px 16px; cursor: pointer; }
-        #reset-button:hover { background-color: #c82333; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .translation-box {
+            margin-top: 30px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            min-height: 60px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        /* input[type="file"] {
+            margin-top: 5px;
+        } */
+
+        button.btn {
+            margin-top: 15px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+
+        button.btn:hover {
+            background-color: #218838;
+        }
+
+        .audio-player {
+            margin-top: 30px;
+        }
+
+        #reset-button {
+            margin-top: 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        #reset-button:hover {
+            background-color: #c82333;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        select:focus {
+            border-color: #80bdff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h2>Upload Audio File</h2>
         <form action="/" method="POST" enctype="multipart/form-data">
             <label for="audio">Choose audio file:</label><br>
             <input type="file" id="audio" name="audio" accept="audio/*" required><br>
+            <label for="language">Choose language:</label><br>
+            <select id="language" name="language" required>
+                {% for code, name in languages.items() %}
+                <option value="{{ code }}" {% if code==selected_language %}selected{% endif %}>{{ name.title() }}
+                </option>
+                {% endfor %}
+            </select><br>
             <button class="btn btn-primary" type="submit">Translate</button>
         </form>
 
@@ -36,10 +107,10 @@
 
         <div class="translation-box">
             {% if translation %}
-                <strong>Translation:</strong>
-                <p>{{ translation }}</p>
+            <strong>Translation:</strong>
+            <p>{{ translation }}</p>
             {% else %}
-                <em>The translation will appear here after uploading an audio file.</em>
+            <em>The translation will appear here after uploading an audio file.</em>
             {% endif %}
         </div>
 
@@ -48,13 +119,15 @@
         </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             console.log("Document loaded");
             const translationBox = document.querySelector(".translation-box");
-            document.querySelector("button").addEventListener("click", function() {
-                translationBox.innerHTML = "<em>Generating the translation of the audio...</em>";
+            document.querySelector(".btn-primary").addEventListener("click", function () {
+                if (document.querySelector("#audio").files.length > 0) {
+                    translationBox.innerHTML = "<em>Generating the translation of the audio...</em>";
+                }
             });
-            document.getElementById("reset-button").addEventListener("click", function() {
+            document.getElementById("reset-button").addEventListener("click", function () {
                 translationBox.innerHTML = "<em>The translation will appear here after uploading an audio file.</em>";
                 document.querySelector("form").reset();
                 document.querySelector(".audio-player").style.display = "none";
@@ -62,4 +135,5 @@
         });
     </script>
 </body>
+
 </html>
