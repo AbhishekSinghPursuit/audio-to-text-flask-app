@@ -9,7 +9,11 @@
         .translation-box { margin-top: 30px; padding: 15px; border: 1px solid #ccc; background: #f9f9f9; min-height: 60px; }
         label { font-weight: bold; }
         input[type="file"] { margin-top: 10px; }
-        button { margin-top: 15px; padding: 8px 16px; }
+        button.btn { margin-top: 15px; padding: 8px 16px; border-radius: 4px; border: none; background-color: #28a745; color: white; cursor: pointer; }
+        button.btn:hover { background-color: #218838; }
+        .audio-player { margin-top: 30px; }
+        #reset-button { margin-top: 20px; background-color: #dc3545; color: white; border: none; border-radius: 4px; padding: 8px 16px; cursor: pointer; }
+        #reset-button:hover { background-color: #c82333; }
     </style>
 </head>
 <body>
@@ -18,11 +22,11 @@
         <form action="/" method="POST" enctype="multipart/form-data">
             <label for="audio">Choose audio file:</label><br>
             <input type="file" id="audio" name="audio" accept="audio/*" required><br>
-            <button type="submit">Translate</button>
+            <button class="btn btn-primary" type="submit">Translate</button>
         </form>
 
         {% if audio_filename %}
-        <div class="container">
+        <div class="container audio-player">
             <audio controls>
                 <source src="{{ url_for('static', filename='uploads/' + audio_filename) }}" type="audio/mpeg">
                 Your browser does not support the audio tag.
@@ -38,6 +42,24 @@
                 <em>The translation will appear here after uploading an audio file.</em>
             {% endif %}
         </div>
+
+        <div class="reset-audio">
+            <button id="reset-button">Reset Audio</button>
+        </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("Document loaded");
+            const translationBox = document.querySelector(".translation-box");
+            document.querySelector("button").addEventListener("click", function() {
+                translationBox.innerHTML = "<em>Generating the translation of the audio...</em>";
+            });
+            document.getElementById("reset-button").addEventListener("click", function() {
+                translationBox.innerHTML = "<em>The translation will appear here after uploading an audio file.</em>";
+                document.querySelector("form").reset();
+                document.querySelector(".audio-player").style.display = "none";
+            });
+        });
+    </script>
 </body>
 </html>
